@@ -1132,7 +1132,7 @@
   // ============================================================
   // 🔑 REPLACE THIS URL WITH YOUR WEB APP URL
   // ============================================================
-  const WEB_APP_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzhaJyHk_4bEwKRVF-MmuL2IrcbNhfq-b6uNOV2XC-Q2nhwuvJ3v30mtsJS-aGd7O7S/exec";
 
   // ===== MOTIVATIONAL MESSAGES =====
   const motivationalMessages = {
