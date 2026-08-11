@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảng đánh giá PHQ-9 mở rộng - Tương tác</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e8edf5 100%);
+      display: flex;
+      justify-content: center;
+      padding: 30px 20px;
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1100px;
+      width: 100%;
+      background: white;
+      border-radius: 32px;
+      box-shadow: 0 20px 60px rgba(0,20,50,0.15);
+      padding: 30px 35px 40px;
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    /* ===== TIÊU ĐỀ ===== */
+    .header { 
+      text-align: center; 
+      padding-bottom: 18px; 
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      margin: -30px -35px 20px -35px;
+      padding: 30px 35px 25px;
+      border-radius: 32px 32px 0 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 200px;
+      height: 200px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+    }
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -40%;
+      left: -10%;
+      width: 150px;
+      height: 150px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+    }
+    .header h1 { 
+      font-size: 26px; 
+      color: white; 
+      letter-spacing: 0.5px;
+      position: relative;
+      z-index: 1;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      margin: 0 0 4px;
+    }
+    .header h1:last-of-type {
+      font-size: 22px;
+      margin-top: 2px;
+    }
+    .header .subtitle {
+      color: rgba(255,255,255,0.9);
+      font-size: 15px;
+      font-weight: 500;
+      margin-top: 6px;
+      position: relative;
+      z-index: 1;
+    }
+    .header .subtitle-en {
+      color: rgba(255,255,255,0.7);
+      font-size: 13px;
+      font-weight: 400;
+      margin-top: 2px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .guide-area {
+      text-align: center;
+      margin: 6px 0 18px;
+    }
+    .guide {
+      font-size: 16px; 
+      background: linear-gradient(135deg, #f0f5fa 0%, #e8edf5 100%);
+      padding: 10px 24px; 
+      border-radius: 50px; 
+      font-weight: 600;
+      display: inline-block;
+      color: #2d3748;
+      border: 1px solid rgba(255,255,255,0.6);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .guide .en {
+      font-size: 13px;
+      font-weight: 400;
+      color: #4a5568;
+      display: block;
+      margin-top: 2px;
+    }
+    .scale-note {
+      font-size: 13px; 
+      color: #4a5568; 
+      background: linear-gradient(135deg, #ebf4ff 0%, #e0e8f5 100%);
+      padding: 8px 24px; 
+      border-radius: 50px; 
+      font-weight: 600;
+      display: inline-block; 
+      margin-top: 8px;
+      border: 1px solid rgba(102, 126, 234, 0.2);
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.08);
+    }
+    .scale-note .en {
+      font-size: 11px;
+      font-weight: 400;
+      color: #4a5568;
+      display: block;
+      margin-top: 2px;
+    }
+
+    /* ===== USER INFO ===== */
+    .user-info {
+      background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+      border-radius: 18px; 
+      padding: 18px 24px; 
+      margin-bottom: 20px; 
+      border: 1px solid rgba(102, 126, 234, 0.15);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.06);
+      position: relative;
+    }
+    .user-info label {
+      font-weight: 600; 
+      font-size: 14px; 
+      color: #2d3748; 
+      display: block; 
+      margin-bottom: 2px;
+    }
+    .user-info label .en {
+      font-weight: 400;
+      font-size: 12px;
+      color: #718096;
+    }
+    .user-info input, .user-info select {
+      width: 100%; 
+      padding: 10px 14px; 
+      border: 2px solid #e2e8f0; 
+      border-radius: 12px; 
+      font-size: 14px;
+      transition: all 0.3s ease;
+      background: white;
+    }
+    .user-info input:focus, .user-info select:focus {
+      border-color: #667eea;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    }
+    .user-info.missing {
+      border-color: #fc8181 !important;
+      background: linear-gradient(145deg, #fff5f5, #fed7d7) !important;
+      animation: shake 0.5s ease;
+      box-shadow: 0 0 0 4px rgba(252, 129, 129, 0.2);
+    }
+    .user-info.missing::after {
+      content: '⚠️ Vui lòng điền thông tin / Please fill in all fields';
+      position: absolute;
+      top: -10px;
+      right: 10px;
+      background: #fc8181;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 12px;
+      border-radius: 20px;
+      animation: pulse 1s infinite;
+    }
+
+    /* ===== 9 CÂU HỎI - BABY BLUE THEME ===== */
+    .grid-3col {
+      display: grid; 
+      grid-template-columns: 1fr 1fr 1fr; 
+      gap: 14px 18px;
+      margin-bottom: 18px;
+    }
+    .question-item {
+      background: linear-gradient(145deg, #f0f9ff, #e0f2fe);
+      border-radius: 16px; 
+      padding: 14px 16px 12px;
+      border: 2px solid #bae6fd;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .question-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(56, 189, 248, 0.2);
+      border-color: #7dd3fc;
+    }
+    .question-item.selected {
+      border-color: #38bdf8;
+      background: linear-gradient(145deg, #e0f2fe, #bae6fd);
+      box-shadow: 0 4px 16px rgba(56, 189, 248, 0.25);
+    }
+    .question-item.missing {
+      border-color: #fc8181 !important;
+      background: linear-gradient(145deg, #fff5f5, #fed7d7) !important;
+      animation: shake 0.5s ease;
+      box-shadow: 0 0 0 4px rgba(252, 129, 129, 0.2);
+    }
+    .question-item.missing .q-text {
+      color: #c53030;
+    }
+    .question-item.missing .q-desc {
+      color: #9b2c2c;
+    }
+    .question-item.missing::after {
+      content: '⚠️ Chưa trả lời / Not answered';
+      position: absolute;
+      top: -10px;
+      right: 10px;
+      background: #fc8181;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 12px;
+      border-radius: 20px;
+      animation: pulse 1s infinite;
+    }
+    .question-item.extra.missing::after {
+      content: '⚠️ Chưa trả lời / Not answered';
+      position: absolute;
+      top: -10px;
+      right: 10px;
+      background: #fc8181;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 12px;
+      border-radius: 20px;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .q-text {
+      font-weight: 700; 
+      font-size: 15px; 
+      color: #0c4a6e; 
+      margin: 0 0 2px;
+    }
+    .q-text .q-number {
+      color: #0369a1;
+      margin-right: 4px;
+      background: rgba(56, 189, 248, 0.15);
+      padding: 0 8px;
+      border-radius: 10px;
+    }
+    .q-desc {
+      font-size: 13px; 
+      color: #0369a1; 
+      margin: 0 0 8px; 
+      line-height: 1.3;
+    }
+    .q-desc .en {
+      font-size: 11px;
+      color: #4a7a8c;
+      display: block;
+      margin-top: 1px;
+    }
+    .q-scale {
+      display: flex; 
+      justify-content: space-between; 
+      background: white;
+      border-radius: 30px; 
+      padding: 4px 8px;
+      margin-top: auto;
+      gap: 2px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+    .q-scale label {
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      font-size: 15px; 
+      font-weight: 700; 
+      color: #0c4a6e; 
+      cursor: pointer;
+      padding: 4px 0; 
+      flex: 1; 
+      border-radius: 30px; 
+      transition: all 0.2s ease;
+    }
+    .q-scale label:hover { 
+      background: #bae6fd; 
+      transform: scale(1.02);
+    }
+    .q-scale label .score-number {
+      color: #0369a1;
+      font-size: 15px;
+      font-weight: 700;
+      background: rgba(56, 189, 248, 0.15);
+      padding: 0 8px;
+      border-radius: 10px;
+      min-width: 24px;
+      text-align: center;
+    }
+    .q-scale input[type="radio"] {
+      appearance: none; 
+      width: 24px; 
+      height: 24px; 
+      border-radius: 50%;
+      border: 2.5px solid #fde68a;
+      background: #fffbeb;
+      margin-bottom: 2px;
+      transition: all 0.15s ease; 
+      cursor: pointer;
+    }
+    .q-scale input[type="radio"]:checked {
+      border: 7px solid #fbbf24;
+      background: #fef3c7;
+      box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.3);
+    }
+
+    /* ===== DIFFICULTY QUESTION - PINK THEME ===== */
+    .difficulty-section {
+      margin: 8px 0 8px;
+      padding: 18px 22px;
+      background: linear-gradient(145deg, #fdf2f8, #fce7f3);
+      border-radius: 16px;
+      border: 2px solid #fbcfe8;
+      box-shadow: 0 4px 12px rgba(244, 114, 182, 0.08);
+      position: relative;
+    }
+    .difficulty-section .q-text {
+      color: #831843;
+    }
+    .difficulty-section .q-text .en {
+      color: #9d174d;
+    }
+    .difficulty-section .q-desc {
+      color: #9d174d;
+    }
+    .difficulty-section .q-desc .en {
+      color: #9d174d;
+    }
+    .difficulty-section .q-scale {
+      background: white;
+      border: 1px solid rgba(244, 114, 182, 0.2);
+    }
+    .difficulty-section .q-scale label {
+      color: #831843;
+    }
+    .difficulty-section .q-scale label:hover {
+      background: #fce7f3;
+    }
+    .difficulty-section .q-scale label .score-number {
+      color: #831843;
+      background: rgba(244, 114, 182, 0.12);
+    }
+    .difficulty-section .q-scale input[type="radio"] {
+      border: 2.5px solid #f9a8d4;
+      background: #fff5f7;
+    }
+    .difficulty-section .q-scale input[type="radio"]:checked {
+      border: 7px solid #ec4899;
+      background: #fce7f3;
+      box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.25);
+    }
+    .difficulty-section.selected {
+      border-color: #ec4899;
+      background: linear-gradient(145deg, #fdf2f8, #fce7f3);
+      box-shadow: 0 4px 16px rgba(236, 72, 153, 0.15);
+    }
+    .difficulty-section.missing {
+      border-color: #fc8181 !important;
+      background: linear-gradient(145deg, #fff5f5, #fed7d7) !important;
+      animation: shake 0.5s ease;
+      box-shadow: 0 0 0 4px rgba(252, 129, 129, 0.2);
+    }
+    .difficulty-section.missing::after {
+      content: '⚠️ Chưa trả lời / Not answered';
+      position: absolute;
+      top: -10px;
+      right: 10px;
+      background: #fc8181;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 12px;
+      border-radius: 20px;
+      animation: pulse 1s infinite;
+    }
+    .difficulty-section .motivational-message {
+      display: none !important;
+    }
+
+    .difficulty-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10.5px;
+      color: #9d174d;
+      margin-top: 6px;
+      padding: 0 4px;
+      font-weight: 500;
+      text-align: center;
+    }
+    .difficulty-labels span {
+      flex: 1;
+      text-align: center;
+      padding: 0 2px;
+    }
+    .difficulty-labels .en {
+      display: block;
+      font-size: 9px;
+      font-weight: 400;
+      color: #6b21a5;
+    }
+
+    /* ===== PHẦN MỞ RỘNG - GREEN THEME ===== */
+    .extra-header {
+      margin: 12px 0 10px; 
+      font-weight: 700; 
+      font-size: 18px; 
+      color: #38a169; 
+      padding-left: 14px;
+      display: block;
+      background: linear-gradient(135deg, #f0fff4, #e6fffa);
+      padding: 12px 20px;
+      border-radius: 16px;
+      border-left: 6px solid #48bb78;
+    }
+    .extra-header .en {
+      display: block;
+      font-size: 13px;
+      font-weight: 400;
+      color: #4a7a5a;
+      margin-top: 2px;
+    }
+    .grid-2col {
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 14px 18px;
+      margin: 6px 0 12px;
+    }
+    .question-item.extra {
+      background: linear-gradient(145deg, #f0fff4, #e6fffa);
+      border: 2px solid rgba(72, 187, 120, 0.2);
+    }
+    .question-item.extra .q-text {
+      color: #276749;
+    }
+    .question-item.extra .q-text .en {
+      color: #4a7a5a;
+    }
+    .question-item.extra .q-desc {
+      color: #4a7a5a;
+    }
+    .question-item.extra .q-desc .en {
+      color: #4a7a5a;
+    }
+    .question-item.extra:hover {
+      border-color: rgba(72, 187, 120, 0.5);
+      box-shadow: 0 8px 24px rgba(72, 187, 120, 0.10);
+    }
+    .question-item.extra.selected {
+      border-color: #48bb78;
+      background: linear-gradient(145deg, #e6fffa, #d4f5e0);
+    }
+    .question-item.extra.missing {
+      border-color: #fc8181 !important;
+      background: linear-gradient(145deg, #fff5f5, #fed7d7) !important;
+    }
+   .extra-scale-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #4a7a5a;
+  margin-top: 6px;
+  padding: 0 4px;
+  font-weight: 500;
+  text-align: center;
+  width: 100%;
+}
+.extra-scale-labels span {
+  flex: 1;
+  text-align: center;
+  min-width: 0;
+  padding: 0 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.2;
+}
+.extra-scale-labels span .vi {
+  display: block;
+  font-size: 10px;
+  white-space: nowrap; /* ✅ Prevents line break */
+}
+.extra-scale-labels span .en {
+  display: block;
+  font-size: 8.5px;
+  font-weight: 400;
+  color: #6b8a7a;
+}
+    .question-item.extra .q-scale {
+      background: white;
+      border: 1px solid rgba(72, 187, 120, 0.15);
+    }
+    .question-item.extra .q-scale label .score-number {
+      color: #276749;
+      font-size: 15px;
+      font-weight: 700;
+      background: rgba(72, 187, 120, 0.1);
+      padding: 0 8px;
+      border-radius: 10px;
+      min-width: 24px;
+      text-align: center;
+    }
+    .question-item.extra .q-scale input[type="radio"] {
+      border: 2.5px solid #fde68a;
+      background: #fffbeb;
+    }
+    .question-item.extra .q-scale input[type="radio"]:checked {
+      border: 7px solid #fbbf24;
+      background: #fef3c7;
+      box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.3);
+    }
+
+    /* ===== SUBMIT BUTTON ===== */
+    .submit-area {
+      text-align: center;
+      margin: 20px 0 10px;
+    }
+    .submit-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 16px 50px;
+      font-size: 20px;
+      font-weight: 700;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.35);
+      letter-spacing: 0.5px;
+    }
+    .submit-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 36px rgba(102, 126, 234, 0.45);
+    }
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .submit-btn .en {
+      display: block;
+      font-size: 14px;
+      font-weight: 400;
+    }
+    .submit-status {
+      margin-top: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      min-height: 30px;
+    }
+    .submit-status.success { color: #38a169; }
+    .submit-status.error { color: #e53e3e; }
+    .submit-status.loading { color: #667eea; }
+
+    /* ===== RESULT POPUP MODAL ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-box {
+      background: white;
+      border-radius: 32px;
+      max-width: 500px;
+      width: 90%;
+      padding: 35px 30px 30px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+      animation: slideUp 0.4s ease;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #667eea, #764ba2, #48bb78);
+      border-radius: 32px 32px 0 0;
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #a0aec0;
+      background: none;
+      border: none;
+      transition: all 0.3s ease;
+    }
+    .modal-close:hover {
+      color: #2d3748;
+      transform: rotate(90deg) scale(1.1);
+    }
+    .modal-emoji {
+      text-align: center;
+      font-size: 72px;
+      margin-top: 10px;
+      margin-bottom: 6px;
+    }
+    .modal-title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 800;
+      color: #2d3748;
+      margin-bottom: 16px;
+    }
+    .modal-title .en {
+      display: block;
+      font-size: 16px;
+      font-weight: 400;
+      color: #4a5568;
+    }
+    .modal-score-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .modal-score-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-size: 15px;
+    }
+    .modal-score-item .label {
+      font-weight: 600;
+      color: #4a5568;
+    }
+    .modal-score-item .label .en {
+      display: block;
+      font-size: 12px;
+      font-weight: 400;
+      color: #718096;
+    }
+    .modal-score-item .value {
+      font-weight: 800;
+      font-size: 20px;
+    }
+    .modal-score-item .value .en {
+      font-size: 14px;
+      font-weight: 400;
+      color: #718096;
+    }
+    .modal-score-item.main {
+      background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+    }
+    .modal-score-item.main .value {
+      color: #38bdf8;
+    }
+    .modal-score-item.extra {
+      background: linear-gradient(135deg, #f0fff4, #e6fffa);
+    }
+    .modal-score-item.extra .value {
+      color: #38a169;
+    }
+    .modal-divider {
+      border: none;
+      border-top: 2px dashed #e2e8f0;
+      margin: 12px 0;
+    }
+    .modal-motivation {
+      background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+      padding: 14px 18px;
+      border-radius: 14px;
+      border-left: 5px solid #ec4899;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 6px 0 12px;
+      color: #831843;
+    }
+    .modal-motivation .emoji {
+      font-size: 20px;
+      margin-right: 8px;
+    }
+    .modal-motivation .en {
+      display: block;
+      font-size: 13px;
+      font-weight: 400;
+      color: #9d174d;
+      margin-top: 2px;
+    }
+    .modal-advice {
+      background: linear-gradient(135deg, #fffbeb, #fef6d7);
+      padding: 16px 20px;
+      border-radius: 16px;
+      border-left: 6px solid #f6ad55;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 10px 0 12px;
+      color: #2d3748;
+    }
+    .modal-advice strong {
+      color: #dd6b20;
+    }
+    .modal-advice .en {
+      display: block;
+      font-size: 13px;
+      font-weight: 400;
+      color: #4a5568;
+      margin-top: 4px;
+    }
+    .modal-extra-advice {
+      background: linear-gradient(135deg, #fffbeb, #fef6d7);
+      padding: 14px 18px;
+      border-radius: 14px;
+      border-left: 5px solid #f6ad55;
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0 0 16px;
+      color: #2d3748;
+    }
+    .modal-extra-advice .en {
+      display: block;
+      font-size: 13px;
+      font-weight: 400;
+      color: #4a5568;
+      margin-top: 2px;
+    }
+    .modal-btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 60px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+    }
+    .modal-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+    }
+    .modal-btn .en {
+      display: block;
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.8);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { transform: translateY(30px) scale(0.95); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .footer {
+      margin-top: 12px; 
+      padding: 12px 18px; 
+      background: linear-gradient(135deg, #f7fafc, #edf2f7);
+      border-radius: 14px; 
+      border-left: 5px solid #667eea; 
+      font-size: 12px; 
+      color: #4a5568; 
+      line-height: 1.6;
+    }
+    .footer .en {
+      font-size: 11px;
+      color: #718096;
+    }
+    .footer p { margin: 0; }
+    .footer strong { color: #2d3748; }
+
+    @media (max-width: 850px) {
+      .grid-3col { grid-template-columns: 1fr 1fr; }
+      .container { padding: 20px; }
+      .header { margin: -20px -20px 20px -20px; padding: 25px 20px; }
+      .header h1 { font-size: 22px; }
+    }
+    @media (max-width: 550px) {
+      .grid-3col { grid-template-columns: 1fr; }
+      .grid-2col { grid-template-columns: 1fr; }
+      .header h1 { font-size: 18px; }
+      .modal-box { padding: 25px 20px; }
+      .submit-btn { padding: 14px 30px; font-size: 17px; }
+      .difficulty-labels { font-size: 9px; }
+      .extra-scale-labels span .vi {
+        font-size: 8.5px;
+      }
+      .extra-scale-labels span .en {
+        font-size: 7.5px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ===== TIÊU ĐỀ ===== -->
+  <div class="header">
+    <h1>🧠 BẢNG CÂU HỎI TỰ ĐÁNH GIÁ SỨC KHỎE TINH THẦN VÀ HẠNH PHÚC</h1>
+    <h1>🧠 THE HOLISTIC WELLBEING SELF-EVALUATION</h1>
+    <div class="subtitle">✨ Phần 1: Cảm xúc & năng lượng (PHQ-9 tiêu chuẩn) . Phần 2: Nhận thức bản thân ✨</div>
+    <div class="subtitle-en">✨ Section 1: Mood & Energy (The 9 standard PHQ-9 questions). Section 2: Self-perception ✨</div>
+  </div>
+
+  <!-- ===== USER INFO: AGE & GENDER ===== -->
+  <div class="user-info" id="userInfoSection">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div>
+        <label>📅 Tuổi <span class="en">/ Age</span></label>
+        <input type="number" id="userAge" min="3" max="130" placeholder="VD: 25 / e.g. 25">
+      </div>
+      <div>
+        <label>⚧️ Bản dạng giới <span class="en">/ Gender Identity</span></label>
+        <select id="userGender">
+          <option value="">-- Chọn / Select --</option>
+          <option value="Nam">Nam / Male</option>
+          <option value="Nữ">Nữ / Female</option>
+          <option value="LGBTQ+">LGBTQ+</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HƯỚNG DẪN ===== -->
+  <div class="guide-area">
+    <div class="guide">
+      ⏳ Trong <strong>2 tuần qua</strong>, bạn gặp các vấn đề dưới đây với mức độ nào?
+      <span class="en">Over the last <strong>2 weeks</strong>, how often have you been bothered by the following problems?</span>
+    </div>
+    <div class="scale-note">
+      0: Không hề có &nbsp;·&nbsp; 1: Nhiều ngày &nbsp;·&nbsp; 2: Hơn 7 ngày &nbsp;·&nbsp; 3: Gần như mỗi ngày
+      <span class="en">0: Not at all &nbsp;·&nbsp; 1: Several days &nbsp;·&nbsp; 2: More than half the days &nbsp;·&nbsp; 3: Nearly every day</span>
+    </div>
+  </div>
+
+  <!-- ===== 9 CÂU HỎI CHÍNH - BABY BLUE THEME ===== -->
+  <div class="grid-3col" id="mainQuestions">
+    <div class="question-item" data-index="0">
+      <div class="q-text"><span class="q-number">1</span> Ít hứng thú</div>
+      <div class="q-desc">Ít thích thú làm mọi việc <span class="en">Little interest or pleasure in doing things</span></div>
+      <div class="q-scale">
+        <label><input type="radio" name="q1" value="0"> <span class="score-number">0</span></label>
+        <label><input type="radio" name="q1" value="1"> <span class="score-number">1</span></label>
+        <label><input type="radio" name="q1" value="2"> <span class="score-number">2</span></label>
+        <label><input type="radio" name="q1" value="3"> <span class="score-number">3</span></label>
+      </div>
+    </div>
+    <div class="question-item" data-index="1">
+      <div class="q-text"><span class="q-number">2</span> Buồn, trầm cảm</div>
+      <div class="q-desc">Cảm thấy buồn, trầm cảm, hoặc tuyệt vọng <span class="en">Feeling down, depressed, or hopeless</span></div>
+      <div class="q-scale">
+        <label><input type="radio" name="q2" value="0"> <span class="score-number">0</span></label>
+        <label><input type="radio" name="q2" value="1"> <span class="score-number">1</span></label>
+        <label><input type="radio" name="q2" value="2"> <span class="score-number">2</span></label>
+        <label><input type="radio" name="q2" value="3"> <span class="score-number">3</span></label>
+      </div>
+    </div>
+    <div class="question-item" data-index="2">
+      <div class="q-text"><span class="q-number">3</span> Rối loạn giấc ngủ</div>
+      <div class="q-desc">Khó ngủ, ngủ không lâu hoặc ngủ quá nhiều <span class="en">Trouble falling or staying asleep, or sleeping too much</span></div>
+      <div class="q-scale">
+        <label><input type="radio" name="q3" value="0"> <span class="score-number">0</span></label>
+        <label><input type="radio" name="q3" value="1"> <span class="score-number">1</span></label>
+        <label><input type="radio" name="q3" value="2"> <span class="score-number">2</span></label>
+        <label><input type="radio" name="q3" value="3"> <span class="score-number">3</span></label>
+      </div>
+    </div>
+    <div class="question-item" data-index="3">
+      <div class="q-text"><span class="q-number">4</span> Mệt mỏi</div>
+      <div class="q-desc">Cảm thấy mệt mỏi hoặc có ít năng lượng <span class="en">Feeling tired or having little energy</span></div>
+      <div class="q-scale">
+        <label><input type="radio" name="q4" value="0"> <span class="score-number">0</span></label>
+        <label><input type="radio" name="q4" value="1"> <span class="score-number">1</span></label>
+        <label><input type="radio" name="q4" value="2"> <span class="score-number">2</span></label>
+        <label><input type="radio" name="q4" value="3"> <span class="score-number">3</span></label>
+      </div>
+    </div>
+    <div class="question-item" data-index="4">
+      <div class="q-text"><span class="q-number">5</span> Ăn uống thay đổi</div>
+      <div class="q-desc">Chán ăn hoặc ăn quá nhiều <span class="en">Poor appetite or overeating</span></div>
+      <div class="q-scale">
+        <label><input type="radio" name="q5" value="0"> <span class="score-number">0</span></label>
+        <label><input type="radio" name="q5" value="1"> <span class="score-number">1</span></label>
+        <label><input type="radio" name="q5" value="2"> <span class="score-number">2</span></label>
+        <label><input type="radio" name="q5" value="3"> <span class="score-number">3</span></label>
+      </div>
+    </div>
+    <div class="question-item" data-index="5">
+      <div class="q-text"><span class="q-number">6</span> Cảm thấy tồi tệ</div>
+      <div class="q-desc">Cảm thấy tồi tệ về bản thân — hoặc thấy mình là một kẻ thất bại hoặc đã làm thất vọng bản thân hoặc gia đình <span class="en">Feeling bad about yourself — or that you are a failure or have let yourself or your family down</span></div>
+      <div class="q-scale">
+        <label><input type="radio" name="q6" value="0"> <span class="score-number">0</span></label>
+        <label><input type="radio" name="q6" value="1"> <span class="score-number">1</span></label>
+        <label><input type="radio" name="q6" value="2"> <span class="score-number">2</span></label>
+        <label><input type="radio" name="q6" value="3"> <span class="score-number">3</span></label>
+      </div>
+    </div>
+    <div class="question-item" data-index="6">
+      <div class="q-text"><span class="q-number">7</span> Khó tập trung</div>
+      <div class="q-desc">Khó tập trung vào một việc gì đó, ví dụ như đọc báo hay xem tivi <span class="en">Trouble concentrating on things, such as reading the newspaper or watching television</span></div>
+      <div class="q-scale">
+        <label><input type="radio" name="q7" value="0"> <span class="score-number">0</span></label>
+        <label><input type="radio" name="q7" value="1"> <span class="score-number">1</span></label>
+        <label><input type="radio" name="q7" value="2"> <span class="score-number">2</span></label>
+        <label><input type="radio" name="q7" value="3"> <span class="score-number">3</span></label>
+      </div>
+    </div>
+    <div class="question-item" data-index="7">
+      <div class="q-text"><span class="q-number">8</span> Quá chậm hoặc quá bồn chồn</div>
+      <div class="q-desc">Đi lại hoặc nói năng quá chậm chạp khiến người khác chú ý? Hoặc ngược lại - quá lo lắng, bồn chồn nên đi lại quá nhiều <span class="en">Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual</span></div>
+      <div class="q-scale">
+        <label><input type="radio" name="q8" value="0"> <span class="score-number">0</span></label>
+        <label><input type="radio" name="q8" value="1"> <span class="score-number">1</span></label>
+        <label><input type="radio" name="q8" value="2"> <span class="score-number">2</span></label>
+        <label><input type="radio" name="q8" value="3"> <span class="score-number">3</span></label>
+      </div>
+    </div>
+    <div class="question-item" data-index="8">
+      <div class="q-text"><span class="q-number">9</span> Nghĩ về cái chết</div>
+      <div class="q-desc">Nghĩ rằng mình chết đi sẽ tốt hơn; hoặc muốn làm đau hay tổn thương cơ thể <span class="en">Thoughts that you would be better off dead or of hurting yourself in some way</span></div>
+      <div class="q-scale">
+        <label><input type="radio" name="q9" value="0"> <span class="score-number">0</span></label>
+        <label><input type="radio" name="q9" value="1"> <span class="score-number">1</span></label>
+        <label><input type="radio" name="q9" value="2"> <span class="score-number">2</span></label>
+        <label><input type="radio" name="q9" value="3"> <span class="score-number">3</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- ===== DIFFICULTY QUESTION - PINK THEME ===== -->
+  <!-- ============================================================ -->
+  <div class="difficulty-section question-item" id="difficultyQuestion" data-index="9">
+    <div class="q-text" style="font-size: 15px; margin-bottom: 4px;">
+      <span class="q-number" style="color: #831843; background: rgba(244, 114, 182, 0.12); padding: 0 8px; border-radius: 10px;">🔹</span>
+      Nếu bạn có bất kỳ vấn đề nào ở trên, những vấn đề này đã khiến bạn khó khăn như thế nào để thực hiện công việc, chăm sóc việc ở nhà hoặc hòa đồng với người khác?
+      <span class="en" style="font-size: 13px; color: #9d174d; font-weight: 400; display: block; margin-top: 2px;">
+        If you checked off any problems, how difficult have these problems made it for you to do your work, take care of things at home, or get along with other people?
+      </span>
+    </div>
+    <div class="q-scale">
+      <label><input type="radio" name="difficulty" value="0"> <span class="score-number">0</span></label>
+      <label><input type="radio" name="difficulty" value="1"> <span class="score-number">1</span></label>
+      <label><input type="radio" name="difficulty" value="2"> <span class="score-number">2</span></label>
+      <label><input type="radio" name="difficulty" value="3"> <span class="score-number">3</span></label>
+    </div>
+    <div class="difficulty-labels">
+      <span>Không khó khăn chút nào <span class="en">Not difficult at all</span></span>
+      <span>Hơi khó khăn <span class="en">Somewhat difficult</span></span>
+      <span>Rất khó khăn <span class="en">Very difficult</span></span>
+      <span>Cực kỳ khó khăn <span class="en">Extremely difficult</span></span>
+    </div>
+  </div>
+
+  <!-- ===== PHẦN MỞ RỘNG - GREEN THEME ===== -->
+  <div class="extra-header">
+    🌱 PHẦN MỞ RỘNG: Đánh giá thêm về nhận thức bản thân
+    <span class="en">🌱 EXPANDED SECTION: Additional self-perception assessment</span>
+  </div>
+  <div class="grid-2col" id="extraQuestions">
+    <div class="question-item extra" data-index="0">
+      <div class="q-text">✨ Tôi yêu bản thân ✨ I love myself</div>
+      <div class="q-desc">Cảm nhận về giá trị và sự trân trọng đối với chính mình <span class="en">Feeling of value and respect for yourself</span></div>
+      <div class="q-scale">
+        <label><input type="radio" name="extra1" value="0"> <span class="score-number">0</span></label>
+        <label><input type="radio" name="extra1" value="1"> <span class="score-number">1</span></label>
+        <label><input type="radio" name="extra1" value="2"> <span class="score-number">2</span></label>
+        <label><input type="radio" name="extra1" value="3"> <span class="score-number">3</span></label>
+      </div>
+      <div class="extra-scale-labels">
+        <span><span class="vi">Không đồng ý</span><span class="en">Disagree</span></span>
+        <span><span class="vi">Hơi đồng ý</span><span class="en">Partly agree</span></span>
+        <span><span class="vi">Đồng ý</span><span class="en">Agree</span></span>
+        <span><span class="vi">Hoàn toàn đồng ý</span><span class="en">Totally agree</span></span>
+      </div>
+    </div>
+    <div class="question-item extra" data-index="1">
+      <div class="q-text">📚 Tôi thích học 📚 I love learning</div>
+      <div class="q-desc">Sự yêu thích và hứng thú với việc học hỏi điều mới <span class="en">Interest and enthusiasm for learning new things</span></div>
+      <div class="q-scale">
+        <label><input type="radio" name="extra2" value="0"> <span class="score-number">0</span></label>
+        <label><input type="radio" name="extra2" value="1"> <span class="score-number">1</span></label>
+        <label><input type="radio" name="extra2" value="2"> <span class="score-number">2</span></label>
+        <label><input type="radio" name="extra2" value="3"> <span class="score-number">3</span></label>
+      </div>
+      <div class="extra-scale-labels">
+        <span><span class="vi">Không đồng ý</span><span class="en">Disagree</span></span>
+        <span><span class="vi">Hơi đồng ý</span><span class="en">Partly agree</span></span>
+        <span><span class="vi">Đồng ý</span><span class="en">Agree</span></span>
+        <span><span class="vi">Hoàn toàn đồng ý</span><span class="en">Totally agree</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SUBMIT BUTTON ===== -->
+  <div class="submit-area">
+    <button class="submit-btn" id="submitBtn" onclick="submitData()">
+      Cùng xem kết quả nhé!
+      <span class="en">Let's see your results!</span>
+    </button>
+    <div class="submit-status" id="submitStatus"></div>
+  </div>
+
+  <!-- ===== NGUỒN TRÍCH DẪN ===== -->
+  <div class="footer">
+    <p>
+      Bảng câu hỏi này được phát triển dựa trên tài liệu PHQ-9 của các giáo sư <strong>Robert L. Spitzer, Janet B.W. Williams, Kurt Kroenke</strong> cùng đồng sự; mở rộng bởi <strong>Đào Thị Thanh Tú</strong>.
+      <span class="en">
+        This questionnaire is based on PHQ-9, developed by Drs. <strong>Robert L. Spitzer, Janet B.W. Williams, Kurt Kroenke</strong> and colleagues; expanded by <strong>Đào Thị Thanh Tú</strong>.
+      </span>
+    </p>
+    <p style="border-top: 1px dashed #cbd5e0; padding-top: 6px; margin-top: 6px;">
+      ⚠️ Bảng câu hỏi mang tính chất <strong>tham khảo</strong>, không thay thế chẩn đoán y khoa. Nếu có lo lắng, hãy tìm gặp chuyên gia.
+      <span class="en">
+        ⚠️ This questionnaire is for <strong>reference</strong> purposes only and does not replace medical diagnosis. If you have concerns, please consult a professional.
+      </span>
+    </p>
+  </div>
+
+</div>
+
+<!-- ===== RESULT POPUP MODAL ===== -->
+<div class="modal-overlay" id="resultModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-emoji" id="modalEmoji">😊</div>
+    <div class="modal-title" id="modalTitle">
+      Kết quả của bạn
+      <span class="en">Your Results</span>
+    </div>
+    
+    <div class="modal-score-grid">
+      <div class="modal-score-item main">
+        <span class="label">🧠 PHQ-9 (9 câu) <span class="en">(9 questions)</span></span>
+        <span class="value" id="modalMainScore">0 / 27</span>
+      </div>
+      <div class="modal-score-item extra">
+        <span class="label">🌱 Nhận thức bản thân (2 câu) <span class="en">Self-perception (2 questions)</span></span>
+        <span class="value" id="modalExtraScore">0 / 6</span>
+      </div>
+    </div>
+    
+    <hr class="modal-divider">
+    
+    <!-- ===== 1. MOTIVATIONAL MESSAGE - PINK ===== -->
+    <div class="modal-motivation" id="modalMotivation">
+      <span class="emoji">💪</span>
+      <span id="modalMotivationText">Bạn thật kiên cường và mạnh mẽ!</span>
+      <span class="en" id="modalMotivationEn">You are truly resilient and strong!</span>
+    </div>
+    
+    <!-- ===== 2. MAIN ADVICE - YELLOW ===== -->
+    <div class="modal-advice" id="modalAdvice">
+      <strong>💡 Lời khuyên:</strong><br>
+      <span id="modalAdviceText">Dựa trên kết quả của bạn, hãy theo dõi sức khỏe tinh thần và tìm kiếm sự hỗ trợ nếu cần.</span>
+      <span class="en" id="modalAdviceEn">Based on your results, please monitor your mental health and seek support if needed.</span>
+    </div>
+    
+    <!-- ===== 3. EXTRA ADVICE - YELLOW ===== -->
+    <div class="modal-extra-advice" id="modalExtraAdvice">
+      <span id="modalExtraAdviceText"></span>
+      <span class="en" id="modalExtraAdviceEn"></span>
+    </div>
+    
+    <button class="modal-btn" onclick="closeModal()">
+      ✅ Đã hiểu, đóng lại
+      <span class="en">I understand, close</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  // ============================================================
+  // 🔑 REPLACE THIS URL WITH YOUR WEB APP URL
+  // ============================================================
+  const WEB_APP_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
+
+  // ===== MOTIVATIONAL MESSAGES =====
+  const motivationalMessages = {
+    0: {
+      emoji: '🌟',
+      vi: 'Bạn thật mạnh mẽ và kiên cường. Chúc bạn luôn giữ vững được ánh sáng rực rỡ và sự bình yên trong tâm hồn!',
+      en: 'You are truly strong and resilient. May you always keep your inner light shining bright and your soul at peace!'
+    },
+    1: {
+      emoji: '🌱',
+      vi: 'Hãy xem những khó khăn hiện tại là cơ hội để thử thách và rèn luyện bản thân. Hãy tập trung giải quyết từng việc nhỏ nhé!',
+      en: 'See these challenges as opportunities to grow and strengthen yourself. Focus on solving one small thing at a time!'
+    },
+    2: {
+      emoji: '💛',
+      vi: 'Bạn không cần phải cô độc đối mặt với những khó khăn đâu. Hãy cho phép bản thân nghỉ ngơi nếu bạn thấy quá mệt.',
+      en: "You don't have to face difficulties alone. Allow yourself to rest if you feel too tired."
+    },
+    3: {
+      emoji: '🕊️',
+      vi: 'Đừng ép bản thân phải mạnh mẽ trong mọi khoảnh khắc bạn ạ. Ngay lúc này, việc thở và tồn tại thôi đã là một dũng khí lớn rồi. Mọi chuyện lớn đến đâu cũng có thể gác lại để bảo vệ tâm trí bạn trước nhé!',
+      en: "Don't force yourself to be strong in every moment. Right now, just breathing and existing is already a great act of courage. No matter how big things are, they can wait while you protect your mind first."
+    }
+  };
+
+  // ===== HÀM TÍNH TỔNG ĐIỂM =====
+  function calculateMainTotal() {
+    let total = 0;
+    for (let i = 1; i <= 9; i++) {
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      if (selected) total += parseInt(selected.value);
+    }
+    return total;
+  }
+
+  function calculateExtraTotal() {
+    let total = 0;
+    for (let i = 1; i <= 2; i++) {
+      const selected = document.querySelector(`input[name="extra${i}"]:checked`);
+      if (selected) total += parseInt(selected.value);
+    }
+    return total;
+  }
+
+  function getDifficultyValue() {
+    const selected = document.querySelector('input[name="difficulty"]:checked');
+    return selected ? parseInt(selected.value) : -1;
+  }
+
+  // ===== HÀM ĐÁNH DẤU CÂU HỎI ĐÃ CHỌN =====
+  function highlightSelected(container) {
+    const items = container.querySelectorAll('.question-item');
+    items.forEach(item => {
+      const radio = item.querySelector('input[type="radio"]:checked');
+      if (radio) {
+        item.classList.add('selected');
+        item.classList.remove('missing');
+      } else {
+        item.classList.remove('selected');
+      }
+    });
+  }
+
+  // ===== GÁN SỰ KIỆN CHO RADIO =====
+  document.querySelectorAll('input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      const parentItem = this.closest('.question-item');
+      if (parentItem) {
+        const siblings = parentItem.querySelectorAll('input[type="radio"]');
+        siblings.forEach(r => {
+          const item = r.closest('.question-item');
+          if (item) item.classList.remove('selected');
+        });
+        if (this.checked) {
+          parentItem.classList.add('selected');
+          parentItem.classList.remove('missing');
+        }
+      }
+      
+      highlightSelected(document.getElementById('mainQuestions'));
+      highlightSelected(document.getElementById('extraQuestions'));
+    });
+  });
+
+  // ===== CLEAR MISSING HIGHLIGHTS =====
+  function clearMissingHighlights() {
+    document.querySelectorAll('.missing').forEach(el => {
+      el.classList.remove('missing');
+    });
+  }
+
+  // ===== HÀM HIỂN THỊ MODAL =====
+  function showModal(mainScore, extraScore, mainAdviceVi, mainAdviceEn, emoji, motivationEmoji, motivationTextVi, motivationTextEn, extraAdviceVi, extraAdviceEn) {
+    document.getElementById('modalMainScore').textContent = mainScore + ' / 27';
+    document.getElementById('modalExtraScore').textContent = extraScore + ' / 6';
+    document.getElementById('modalAdviceText').textContent = mainAdviceVi;   // Vietnamese
+    document.getElementById('modalAdviceEn').textContent = mainAdviceEn;     // English
+    document.getElementById('modalEmoji').textContent = emoji;
+    
+    document.getElementById('modalMotivationText').textContent = motivationTextVi;
+    document.getElementById('modalMotivationEn').textContent = motivationTextEn;
+    document.querySelector('#modalMotivation .emoji').textContent = motivationEmoji;
+    
+    document.getElementById('modalExtraAdviceText').textContent = extraAdviceVi;
+    document.getElementById('modalExtraAdviceEn').textContent = extraAdviceEn;
+    
+    let titleVi = 'Kết quả của bạn';
+    let titleEn = 'Your Results';
+    if (mainScore >= 20) { titleVi = '⚠️ Cần sự hỗ trợ ngay'; titleEn = '⚠️ Immediate support needed'; }
+    else if (mainScore >= 15) { titleVi = '⚡ Cần quan tâm hơn'; titleEn = '⚡ Need more attention'; }
+    else if (mainScore >= 10) { titleVi = '📝 Hãy theo dõi thêm'; titleEn = '📝 Keep monitoring'; }
+    else if (mainScore >= 5) { titleVi = '💚 Đang ổn'; titleEn = '💚 Doing okay'; }
+    else { titleVi = '🌟 Sức khỏe tốt'; titleEn = '🌟 Good health'; }
+    document.getElementById('modalTitle').innerHTML = titleVi + '<span class="en">' + titleEn + '</span>';
+    
+    document.getElementById('resultModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // ===== HÀM ĐÓNG MODAL =====
+  function closeModal() {
+    document.getElementById('resultModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+
+  document.getElementById('resultModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ===== VALIDATION FUNCTION =====
+  function validateAllFields() {
+    let allValid = true;
+    let firstMissing = null;
+    
+    clearMissingHighlights();
+    
+    const age = document.getElementById('userAge').value.trim();
+    const gender = document.getElementById('userGender').value;
+    const userInfoSection = document.getElementById('userInfoSection');
+    
+    if (age === '' || parseInt(age) < 0 || parseInt(age) > 150) {
+      allValid = false;
+      userInfoSection.classList.add('missing');
+      if (!firstMissing) firstMissing = userInfoSection;
+    }
+    
+    if (gender === '') {
+      allValid = false;
+      userInfoSection.classList.add('missing');
+      if (!firstMissing) firstMissing = userInfoSection;
+    }
+    
+    for (let i = 1; i <= 9; i++) {
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      if (!selected) {
+        allValid = false;
+        const questionItem = document.querySelector(`.question-item[data-index="${i-1}"]`);
+        if (questionItem) {
+          questionItem.classList.add('missing');
+          if (!firstMissing) firstMissing = questionItem;
+        }
+      }
+    }
+    
+    const difficultySelected = document.querySelector('input[name="difficulty"]:checked');
+    if (!difficultySelected) {
+      allValid = false;
+      const diffItem = document.getElementById('difficultyQuestion');
+      if (diffItem) {
+        diffItem.classList.add('missing');
+        if (!firstMissing) firstMissing = diffItem;
+      }
+    }
+    
+    for (let i = 1; i <= 2; i++) {
+      const selected = document.querySelector(`input[name="extra${i}"]:checked`);
+      if (!selected) {
+        allValid = false;
+        const questionItem = document.querySelector(`#extraQuestions .question-item[data-index="${i-1}"]`);
+        if (questionItem) {
+          questionItem.classList.add('missing');
+          if (!firstMissing) firstMissing = questionItem;
+        }
+      }
+    }
+    
+    return { allValid, firstMissing };
+  }
+
+  // ===== HÀM GỬI DỮ LIỆU =====
+  async function submitData() {
+    const statusEl = document.getElementById('submitStatus');
+    const btn = document.getElementById('submitBtn');
+
+    const { allValid, firstMissing } = validateAllFields();
+
+    if (!allValid) {
+      statusEl.textContent = "⚠️ Vui lòng điền đầy đủ tất cả thông tin và trả lời các câu hỏi trước khi xem kết quả. / Please fill in all fields and answer all questions before viewing results.";
+      statusEl.className = "submit-status error";
+      
+      if (firstMissing) {
+        firstMissing.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return;
+    }
+
+    const data = {};
+    for (let i = 1; i <= 9; i++) {
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      data[`q${i}`] = selected ? parseInt(selected.value) : 0;
+    }
+    for (let i = 1; i <= 2; i++) {
+      const selected = document.querySelector(`input[name="extra${i}"]:checked`);
+      data[`extra${i}`] = selected ? parseInt(selected.value) : 0;
+    }
+
+    const difficultySelected = document.querySelector('input[name="difficulty"]:checked');
+    data.difficulty = difficultySelected !== null ? parseInt(difficultySelected.value) : -1;
+
+    const mainTotal = calculateMainTotal();
+    const extraTotal = calculateExtraTotal();
+    data.total_main = mainTotal;
+    data.total_extra = extraTotal;
+    data.user_age = document.getElementById('userAge').value.trim();
+    data.user_gender = document.getElementById('userGender').value;
+
+    btn.disabled = true;
+    statusEl.textContent = "⏳ Đang kiểm tra, bạn chờ chút nhé... / Checking, please wait...";
+    statusEl.className = "submit-status loading";
+
+    try {
+      console.log("📤 Sending data:", data);
+
+      const response = await fetch(WEB_APP_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      });
+
+      console.log("✅ Data sent successfully!");
+      
+      statusEl.className = "submit-status success";
+
+      const diffValue = getDifficultyValue();
+      let motivationEmoji = '💪';
+      let motivationTextVi = 'Bạn thật kiên cường và mạnh mẽ!';
+      let motivationTextEn = 'You are truly resilient and strong!';
+      
+      if (diffValue >= 0 && diffValue <= 3) {
+        const msg = motivationalMessages[diffValue];
+        motivationEmoji = msg.emoji;
+        motivationTextVi = msg.vi;
+        motivationTextEn = msg.en;
+      }
+
+      // 2. Main PHQ-9 advice
+      let mainAdviceVi = '';
+      let mainAdviceEn = '';
+      let emoji = '😊';
+
+      if (mainTotal >= 20) {
+        mainAdviceVi = 'Điểm PHQ-9 của bạn ở mức rất cao (≥ 20). Rất khuyến khích bạn tìm gặp bác sĩ tâm thần hoặc chuyên gia tâm lý ngay để được hỗ trợ kịp thời.';
+        mainAdviceEn = 'Your PHQ-9 score is very high (≥ 20). We strongly encourage you to see a psychiatrist or psychologist immediately for timely support.';
+        emoji = '⚠️';
+      } else if (mainTotal >= 15) {
+        mainAdviceVi = 'Điểm PHQ-9 của bạn ở mức khá cao (15-19). Hãy cân nhắc tìm gặp chuyên gia tâm lý để được tư vấn và hỗ trợ thêm.';
+        mainAdviceEn = 'Your PHQ-9 score is quite high (15-19). Please consider consulting a psychologist for further guidance and support.';
+        emoji = '😔';
+      } else if (mainTotal >= 10) {
+        mainAdviceVi = 'Điểm PHQ-9 của bạn ở mức trung bình (10-14). Hãy theo dõi thêm và đừng ngần ngại chia sẻ với người thân hoặc tìm gặp chuyên gia nếu cần.';
+        mainAdviceEn = 'Your PHQ-9 score is moderate (10-14). Keep monitoring your mental health and don\'t hesitate to share with loved ones or seek professional help if needed.';
+        emoji = '🧐';
+      } else if (mainTotal >= 5) {
+        mainAdviceVi = 'Điểm PHQ-9 của bạn ở mức nhẹ (5-9). Duy trì các thói quen lành mạnh và theo dõi sức khỏe tinh thần của bạn và có những điều chỉnh phù hợp nhé.';
+        mainAdviceEn = 'Your PHQ-9 score is mild (5-9). Maintain healthy habits, monitor your mental health, and make appropriate adjustments as needed.';
+        emoji = '🙂';
+      } else {
+        mainAdviceVi = 'Điểm PHQ-9 của bạn ở mức thấp (0-4). Sức khỏe tinh thần của bạn đang ở trạng thái tốt. Hãy tiếp tục duy trì lối sống lành mạnh!';
+        mainAdviceEn = 'Your PHQ-9 score is low (0-4). Your mental health is in good condition. Keep up your healthy lifestyle!';
+        emoji = '😊';
+      }
+
+      // 3. Extra advice
+      let extraAdviceVi = '';
+      let extraAdviceEn = '';
+      if (extraTotal <= 2) {
+        extraAdviceVi = '💚 Điểm phần mở rộng của bạn thấp (≤ 2), cho thấy bạn có thể đang thiếu sự yêu thương bản thân hoặc động lực học tập. Bạn ơi, đến lúc dành thời gian chăm sóc bản thân rồi đó!';
+        extraAdviceEn = '💚 Your expanded section score is low (≤ 2), suggesting you may be lacking self-love or learning motivation. It\'s time to take care of yourself!';
+        emoji = '💚';
+      } else if (extraTotal <= 4) {
+        extraAdviceVi = '💛 Điểm phần mở rộng của bạn khá ổn, luôn nhớ yêu bản thân và học điều mới mỗi ngày nhé!';
+        extraAdviceEn = '💛 Your expanded section score is pretty good. Always remember to love yourself and learn something new every day!';
+      } else {
+        extraAdviceVi = '💖 Thật tuyệt vời vì bạn biết yêu thương bản thân và ham học hỏi. Chúc mừng bạn, hãy luôn giữ tinh thần này nhé!';
+        extraAdviceEn = '💖 It\'s wonderful that you know how to love yourself and love learning. Congratulations, keep up this spirit!';
+      }
+
+      showModal(
+        mainTotal,
+        extraTotal,
+        mainAdviceVi,
+        mainAdviceEn,
+        emoji,
+        motivationEmoji,
+        motivationTextVi,
+        motivationTextEn,
+        extraAdviceVi,
+        extraAdviceEn
+      );
+
+    } catch (error) {
+      console.error("❌ Error:", error);
+      statusEl.textContent = `❌ Lỗi: ${error.message}. Vui lòng thử lại. / Error: ${error.message}. Please try again.`;
+      statusEl.className = "submit-status error";
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  // ===== KHỞI TẠO =====
+  highlightSelected(document.getElementById('mainQuestions'));
+  highlightSelected(document.getElementById('extraQuestions'));
+</script>
+
+</body>
+</html>
